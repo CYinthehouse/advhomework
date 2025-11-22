@@ -37,6 +37,78 @@
             font-size: inherit;
         }
 
+        /* Logo and branding styles */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            max-width: 300px;
+            height: auto;
+        }
+
+        body.print-mode .logo-container img {
+            display: none;
+        }
+
+        .print-logo {
+            display: none;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        body.print-mode .print-logo {
+            display: block;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            color: #000000;
+        }
+
+        /* Character images container */
+        .character-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .character-container img {
+            height: 120px;
+            width: auto;
+            image-rendering: pixelated;
+        }
+
+        body.print-mode .character-container {
+            display: none;
+        }
+
+        /* Practice ready section */
+        .practice-ready {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .practice-ready img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin: 0 auto 15px auto;
+        }
+
+        .practice-ready-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 16px;
+            color: #ffd700;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        body.print-mode .practice-ready {
+            display: none;
+        }
+
         /* Override all inline color styles in print mode */
         body.print-mode span[style*="color: #ffd700"],
         body.print-mode span[style*="color: #41c0ff"],
@@ -700,6 +772,22 @@
             h1 {
                 font-size: 20px;
             }
+
+            .character-container img {
+                height: 80px;
+            }
+
+            .logo-container img {
+                max-width: 200px;
+            }
+
+            .practice-ready img {
+                max-width: 150px;
+            }
+
+            .practice-ready-text {
+                font-size: 12px;
+            }
         }
 
         @media print {
@@ -720,6 +808,16 @@
     </div>
 
     <div class="container" id="content">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/logo555.png?v=1757969221" alt="KoreanLearnin Logo">
+        </div>
+        
+        <!-- Print mode text logo -->
+        <div class="print-logo">
+            KOREANLEARNIN
+        </div>
+
         <h1 contenteditable="true">🎮 KOREAN NOMINALIZATION MASTER PRACTICE 🎮</h1>
 
         <!-- Today You'll Practice Box -->
@@ -750,6 +848,16 @@
             <div class="key-concept" contenteditable="true">✨ <span style="color: #ffd700;">KEY CONCEPT:</span> Nominalization = Making Sentences Flow</div>
             <p contenteditable="true">Nominalized sentences are more flowy, expressive, and allow you to express opinions softly.</p>
             <p contenteditable="true">Turn verbs into nouns → Whole sentence becomes a noun → More sophisticated & culturally appropriate!</p>
+        </div>
+
+        <!-- Character Images Row -->
+        <div class="character-container">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/4b45bdfbd4b83c4f97f7c58cd8e49623_31e72055-468c-4c6f-82a0-f79734707937.png?v=1731621340" alt="Character 1">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/9025db2a75c6ad48c96d559511317306.png?v=1731621340" alt="Character 2">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/f27348ba976bcb866a09d5e281c36e55.png?v=1731621339" alt="Character 3">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/96af0d4d3db9c09d03897cd19f41ec8c.png?v=1731621340" alt="Character 4">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/ba361cb80f08dfce6c255ebc1dc8b0aa.png?v=1731621340" alt="Character 5">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/71dc38903bd85b1734e6c742fb694eec.png?v=1731621340" alt="Character 6">
         </div>
 
         <!-- Grammar Point 1: 다가 -->
@@ -1076,6 +1184,12 @@
                     <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">주말</span> = weekend, <span class="k" contenteditable="true">회사</span> = company))</div>
                 </div>
             </div>
+        </div>
+
+        <!-- Practice Ready Section -->
+        <div class="practice-ready">
+            <img src="https://cdn.shopify.com/s/files/1/0674/6747/7282/files/ebhrfnjsdc.png?v=1745798463" alt="Practice Ready">
+            <div class="practice-ready-text">Are you ready to practice?!</div>
         </div>
 
         <!-- PRACTICE SECTIONS START HERE -->
