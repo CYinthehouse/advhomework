@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Korean Nominalization Master Practice - KoreanLearnin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            background: url('https://cdn.shopify.com/s/files/1/0674/6747/7282/files/sky.png?v=1750990355') repeat;
+            color: #FFFFFF;
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        body.print-mode {
+            background: #FFFFFF;
+            color: #000000;
+            font-size: 115%;
+        }
+
+        body.print-mode * {
+            font-size: inherit;
+        }
+
+        /* Override all inline color styles in print mode */
+        body.print-mode span[style*="color: #ffd700"],
+        body.print-mode span[style*="color: #41c0ff"],
+        body.print-mode span[style*="color: #32CD32"],
+        body.print-mode span[style*="color: #ff7777"],
+        body.print-mode span[style*="color: #FFFFFF"],
+        body.print-mode span[style*="color: #ff69b4"] {
+            color: #555555 !important;
+        }
+
+        /* Force all white text to black in print mode */
+        body.print-mode [style*="color: #FFFFFF"],
+        body.print-mode [style*="color:#FFFFFF"],
+        body.print-mode [style*="color: white"],
+        body.print-mode [style*="color:white"] {
+            color: #000000 !important;
+        }
+
+        /* Ensure use-when and dont-use-when text is black in print mode */
+        body.print-mode .use-when span,
+        body.print-mode .dont-use-when span {
+            color: #000000 !important;
+        }
+
+        body.print-mode .practice-column li span,
+        body.print-mode .situation-register span,
+        body.print-mode .use-when,
+        body.print-mode .dont-use-when {
+            color: #000000 !important;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container.hide-for-pdf {
+            display: none;
+        }
+
+        .control-button {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            padding: 15px 30px;
+            background-color: #41c0ff;
+            color: #000000;
+            border: 3px solid #000000;
+            border-radius: 5px;
+            cursor: pointer;
+            text-shadow: none;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            background-color: #ff69b4;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            color: #41c0ff;
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        body.print-mode h1 {
+            color: #333333;
+            text-shadow: none;
+            font-size: 28px;
+        }
+
+        [contenteditable="true"] {
+            cursor: pointer;
+            outline: none;
+        }
+
+        [contenteditable="true"]:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body.print-mode [contenteditable="true"]:hover {
+            background-color: transparent;
+        }
+
+        /* Korean inline text styling */
+        .k {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #32CD32;
+        }
+
+        body.print-mode .k {
+            color: #444444;
+            font-size: 20px;
+        }
+
+        body.print-mode .today-practice-box {
+            background: #FFFFFF;
+            border: 2px solid #000000;
+        }
+
+        .today-practice-title {
+            color: #ff7777;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        body.print-mode .today-practice-title {
+            color: #555555;
+            text-shadow: none;
+            font-size: 18px;
+        }
+
+        .practice-items {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .practice-column {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        body.print-mode .practice-column {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+        }
+
+        .practice-column h3 {
+            color: #ffd700;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        body.print-mode .practice-column h3 {
+            color: #555555;
+            text-shadow: none;
+            font-size: 15px;
+        }
+
+        .practice-column ul {
+            list-style: none;
+            font-size: 12px;
+        }
+
+        .practice-column li {
+            margin-bottom: 5px;
+            color: #FFFFFF;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .practice-column li {
+            color: #000000;
+            text-shadow: none;
+            font-size: 14px;
+        }
+
+        body.print-mode .intro-box {
+            background: #FFFFFF;
+            border: 2px solid #000000;
+        }
+
+        .key-concept {
+            color: #ffd700;
+            font-size: 14px;
+            margin: 10px 0;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        body.print-mode .key-concept {
+            color: #555555;
+            text-shadow: none;
+            font-size: 16px;
+        }
+
+        .intro-box p {
+            color: #FFFFFF;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .intro-box p {
+            color: #000000;
+            text-shadow: none;
+            font-size: 15px;
+        }
+
+        .grammar-breakdown {
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .practice-item {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .example-sentence {
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #666;
+            padding-bottom: 10px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .practice-subsection {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .level-section {
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(5px);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .today-practice-box {
+            background: #000000;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .intro-box {
+            background: rgba(0, 0, 0, 0.7);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 13px;
+            line-height: 1.8;
+            backdrop-filter: blur(5px);
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .simple-examples {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        .situation-register {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 12px;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+
+        body.print-mode .grammar-breakdown {
+            background: #FFFFFF;
+            border: 2px solid #000000;
+        }
+
+        .grammar-header {
+            color: #41c0ff;
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        .grammar-header .k {
+            font-size: 22px;
+            color: #41c0ff;
+        }
+
+        body.print-mode .grammar-header {
+            color: #333333;
+            text-shadow: none;
+            font-size: 20px;
+        }
+
+        body.print-mode .grammar-header .k {
+            color: #333333;
+            font-size: 24px;
+        }
+
+        .formulaic-meaning {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #FFFFFF;
+            position: relative;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .formulaic-meaning {
+            background: #FFFFFF;
+            border-left: 3px solid #000000;
+            color: #000000;
+            text-shadow: none;
+            font-size: 15px;
+        }
+
+        .inline-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .mini-button {
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            padding: 5px 8px;
+            color: #ff69b4;
+            font-size: 11px;
+            text-align: center;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .mini-button {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            color: #666666;
+            text-shadow: none;
+            font-size: 13px;
+        }
+
+        .mini-button .k {
+            font-size: 14px;
+        }
+
+        body.print-mode .mini-button .k {
+            font-size: 16px;
+        }
+
+        .basic-meaning, .feelings {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 12px;
+            color: #FFFFFF;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .basic-meaning, body.print-mode .feelings {
+            background: #FFFFFF;
+            border-left: 3px solid #000000;
+            color: #000000;
+            text-shadow: none;
+            font-size: 14px;
+        }
+
+        .feelings-label, .keywords-label {
+            color: #ffd700;
+        }
+
+        body.print-mode .feelings-label, body.print-mode .keywords-label {
+            color: #555555;
+            font-weight: 800;
+        }
+
+
+
+        body.print-mode .situation-register {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            font-size: 14px;
+        }
+
+        .use-when, .dont-use-when {
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        body.print-mode .use-when, body.print-mode .dont-use-when {
+            font-size: 15px;
+        }
+
+        .situation-register li {
+            color: #FFFFFF;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .situation-register li {
+            color: #000000;
+            text-shadow: none;
+            font-size: 14px;
+        }
+
+
+
+        body.print-mode .simple-examples {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+        }
+
+        .examples-header {
+            color: #41c0ff;
+            font-size: 14px;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            padding: 10px 15px 5px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        body.print-mode .examples-header {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            color: #333333;
+            text-shadow: none;
+            font-size: 16px;
+        }
+
+        .example-sentence:last-child {
+            border-bottom: none;
+        }
+
+        body.print-mode .example-sentence {
+            border-bottom: 1px dashed #000000;
+        }
+
+        .example-korean {
+            color: #ff7777;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .example-korean {
+            color: #444444;
+            text-shadow: none;
+            font-size: 18px;
+        }
+
+        .example-english, .keywords {
+            color: #FFFFFF;
+            font-size: 13px;
+            margin-bottom: 5px;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .example-english, body.print-mode .keywords {
+            color: #000000;
+            text-shadow: none;
+            font-size: 15px;
+        }
+
+        .keywords {
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .keywords .k {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+        }
+
+        body.print-mode .keywords .k {
+            font-size: 16px;
+        }
+
+        /* Practice Level Sections */
+
+        body.print-mode .level-section {
+            background: #FFFFFF;
+            border: 2px solid #000000;
+        }
+
+        .level-header {
+            background: rgba(255, 255, 255, 0.2);
+            color: #41c0ff;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        body.print-mode .level-header {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            color: #333333;
+            text-shadow: none;
+            font-size: 18px;
+        }
+
+
+
+        body.print-mode .practice-subsection {
+            background: #FFFFFF;
+            border: 1px solid #000000;
+        }
+
+        .subsection-title {
+            color: #ff7777;
+            font-size: 14px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        .subsection-title .k {
+            color: #ff7777;
+        }
+
+        body.print-mode .subsection-title {
+            color: #555555;
+            border-bottom: 1px solid #000000;
+            text-shadow: none;
+            font-size: 16px;
+        }
+
+        body.print-mode .subsection-title .k {
+            color: #555555;
+        }
+
+
+
+        .practice-number, .practice-english, .practice-keywords {
+            color: #FFFFFF;
+            margin-bottom: 5px;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .practice-number, 
+        body.print-mode .practice-english, 
+        body.print-mode .practice-keywords {
+            color: #000000;
+            text-shadow: none;
+        }
+
+        body.print-mode .practice-number {
+            font-size: 14px;
+        }
+
+        body.print-mode .practice-english {
+            font-size: 15px;
+        }
+
+        body.print-mode .practice-keywords {
+            font-size: 14px;
+        }
+
+        .practice-number {
+            font-size: 12px;
+        }
+
+        .practice-english {
+            font-size: 13px;
+        }
+
+        .practice-keywords {
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .practice-keywords .k {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 14px;
+        }
+
+        body.print-mode .practice-keywords .k {
+            font-size: 16px;
+        }
+
+        .answer-line {
+            border-bottom: 2px solid #666;
+            margin: 10px 0;
+            height: 30px;
+        }
+
+        body.print-mode .answer-line {
+            border-bottom: 1px solid #000000;
+        }
+
+        .level-note {
+            background: rgba(255, 255, 255, 0.1);
+            border-left: 4px solid rgba(255, 255, 255, 0.5);
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 12px;
+            color: #FFFFFF;
+            text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        }
+
+        body.print-mode .level-note {
+            background: #FFFFFF;
+            border-left: 3px solid #000000;
+            color: #000000;
+            text-shadow: none;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .practice-items {
+                grid-template-columns: 1fr;
+            }
+
+            .inline-buttons {
+                flex-direction: column;
+            }
+
+            .k {
+                font-size: 16px;
+            }
+
+            body {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                color: #000000 !important;
+            }
+            .button-container {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="button-container" id="buttonContainer">
+        <button class="control-button" onclick="generatePrintablePDF()">PRINTABLE VERSION (PDF)</button>
+        <button class="control-button" onclick="generatePDF()">SAVE AS PDF</button>
+    </div>
+
+    <div class="container" id="content">
+        <h1 contenteditable="true">🎮 KOREAN NOMINALIZATION MASTER PRACTICE 🎮</h1>
+
+        <!-- Today You'll Practice Box -->
+        <div class="today-practice-box">
+            <div class="today-practice-title" contenteditable="true">📚 TODAY YOU'LL PRACTICE</div>
+            <div class="practice-items">
+                <div class="practice-column">
+                    <h3><span style="color: #ffd700;">3 GRAMMAR POINTS:</span></h3>
+                    <ul>
+                        <li contenteditable="true">• <span style="color: #32CD32;">ROOT</span><span class="k">다가</span> (while doing → switched)</li>
+                        <li contenteditable="true">• <span style="color: #32CD32;">ROOT</span><span class="k">는 척하다</span> (pretend to)</li>
+                        <li contenteditable="true">• <span style="color: #32CD32;">ROOT</span><span class="k">고 나서</span> (after finishing)</li>
+                    </ul>
+                </div>
+                <div class="practice-column">
+                    <h3><span style="color: #ffd700;">3 CONJUNCTIONS:</span></h3>
+                    <ul>
+                        <li contenteditable="true">• <span style="color: #32CD32;">ROOT</span><span class="k">는데</span> (action verb + but)</li>
+                        <li contenteditable="true">• <span style="color: #32CD32;">SOB</span><span class="k">(으)ㄴ데</span> (descriptive + but)</li>
+                        <li contenteditable="true">• <span style="color: #32CD32;">NOUN</span><span class="k">인데</span> (noun + but)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Concept Box -->
+        <div class="intro-box">
+            <div class="key-concept" contenteditable="true">✨ <span style="color: #ffd700;">KEY CONCEPT:</span> Nominalization = Making Sentences Flow</div>
+            <p contenteditable="true">Nominalized sentences are more flowy, expressive, and allow you to express opinions softly.</p>
+            <p contenteditable="true">Turn verbs into nouns → Whole sentence becomes a noun → More sophisticated & culturally appropriate!</p>
+        </div>
+
+        <!-- Grammar Point 1: 다가 -->
+        <div class="grammar-breakdown">
+            <div class="grammar-header"><span style="color: #41c0ff;" contenteditable="true">ROOT다가</span></div>
+            
+            <div class="formulaic-meaning" contenteditable="true">
+                <span style="color: #41c0ff;">ROOT다가</span> = "while doing verb, switched to something else"
+                <div class="inline-buttons">
+                    <div class="mini-button">ROOT다가</div>
+                    <div class="mini-button">❌ SOB</div>
+                    <div class="mini-button">❌ NOUN</div>
+                </div>
+            </div>
+
+            <div class="basic-meaning" contenteditable="true">
+                Indicates interruption or shift from one action to another. Shows that while doing the first action, something else happened or you switched to a different action.
+            </div>
+
+            <div class="feelings" contenteditable="true">
+                <span class="feelings-label">Emotions:</span> Unexpectedness • Interruption • Casualness
+            </div>
+
+            <div class="situation-register">
+                <div class="use-when" contenteditable="true">
+                    <span style="color: #32CD32;">✅ Use when:</span><br>
+                    <span style="color: #FFFFFF;">• Describing interrupted activities (casual conversation)<br>
+                    • Telling stories about daily events (with friends)<br>
+                    • Explaining why something didn't get finished (informal settings)</span>
+                </div>
+                <div class="dont-use-when" contenteditable="true">
+                    <span style="color: #ff7777;">❌ Don't use when:</span><br>
+                    <span style="color: #FFFFFF;">• Writing formal reports<br>
+                    • Business presentations<br>
+                    • Academic papers</span>
+                </div>
+            </div>
+
+            <div class="examples-header">Example Sentences</div>
+            <div class="simple-examples">
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">게임하다가 엄마한테 걸렸어요.</div>
+                    <div class="example-english" contenteditable="true">I was playing games and got caught by mom.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">게임</span> = game, <span class="k" contenteditable="true">걸리다</span> = to get caught))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">공부하다가 잠들었어요.</div>
+                    <div class="example-english" contenteditable="true">I fell asleep while studying.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">공부</span> = study, <span class="k" contenteditable="true">잠들다</span> = to fall asleep))</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grammar Point 2: 척하다 -->
+        <div class="grammar-breakdown">
+            <div class="grammar-header"><span style="color: #41c0ff;" contenteditable="true">ROOT는 척하다 / SOB(으)ㄴ 척하다</span></div>
+            
+            <div class="formulaic-meaning" contenteditable="true">
+                <span style="color: #41c0ff;">ROOT는/SOB(으)ㄴ 척하다</span> = "to pretend to verb/SOB"
+                <div class="inline-buttons">
+                    <div class="mini-button">ROOT는 척하다</div>
+                    <div class="mini-button">SOB(으)ㄴ 척하다</div>
+                    <div class="mini-button">NOUN인 척하다</div>
+                </div>
+            </div>
+
+            <div class="basic-meaning" contenteditable="true">
+                Express pretending or acting like something is true when it's not. Used to describe someone putting on an act or faking a state/action.
+            </div>
+
+            <div class="feelings" contenteditable="true">
+                <span class="feelings-label">Emotions:</span> Deception • Sarcasm • Playfulness
+            </div>
+
+            <div class="situation-register">
+                <div class="use-when" contenteditable="true">
+                    <span style="color: #32CD32;">✅ Use when:</span><br>
+                    <span style="color: #FFFFFF;">• Gossiping with friends about someone's behavior<br>
+                    • Joking around in casual settings<br>
+                    • Describing social situations informally</span>
+                </div>
+                <div class="dont-use-when" contenteditable="true">
+                    <span style="color: #ff7777;">❌ Don't use when:</span><br>
+                    <span style="color: #FFFFFF;">• Speaking to superiors formally<br>
+                    • Professional evaluations<br>
+                    • Serious academic discussions</span>
+                </div>
+            </div>
+
+            <div class="examples-header">Example Sentences</div>
+            <div class="simple-examples">
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">아는 척하지 마.</div>
+                    <div class="example-english" contenteditable="true">Don't pretend you know (<span style="color: #41c0ff;">ROOT는</span>).</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">알다</span> = to know, <span class="k" contenteditable="true">마</span> = don't))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">자는 척했어요.</div>
+                    <div class="example-english" contenteditable="true">I pretended to be sleeping (<span style="color: #41c0ff;">ROOT는</span>).</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">자다</span> = to sleep, <span class="k" contenteditable="true">했다</span> = did))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">바쁜 척하고 있어요.</div>
+                    <div class="example-english" contenteditable="true">He's pretending to be busy (<span style="color: #41c0ff;">SOB(으)ㄴ</span>).</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">바쁘다</span> = busy, <span class="k" contenteditable="true">있다</span> = to be))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">아픈 척했어.</div>
+                    <div class="example-english" contenteditable="true">I pretended to be sick (<span style="color: #41c0ff;">SOB(으)ㄴ</span>).</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">아프다</span> = sick, <span class="k" contenteditable="true">했다</span> = did))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">부자인 척했어요.</div>
+                    <div class="example-english" contenteditable="true">He pretended to be rich (<span style="color: #41c0ff;">NOUN인</span>).</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">부자</span> = rich person, <span class="k" contenteditable="true">했다</span> = did))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">학생인 척하지 마.</div>
+                    <div class="example-english" contenteditable="true">Don't pretend to be a student (<span style="color: #41c0ff;">NOUN인</span>).</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">학생</span> = student, <span class="k" contenteditable="true">마</span> = don't))</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grammar Point 3: 고 나서 -->
+        <div class="grammar-breakdown">
+            <div class="grammar-header"><span style="color: #41c0ff;" contenteditable="true">ROOT고 나서</span></div>
+            
+            <div class="formulaic-meaning" contenteditable="true">
+                <span style="color: #41c0ff;">ROOT고 나서</span> = "after finishing verb completely"
+                <div class="inline-buttons">
+                    <div class="mini-button">ROOT고 나서</div>
+                    <div class="mini-button">❌ SOB</div>
+                    <div class="mini-button">❌ NOUN</div>
+                </div>
+            </div>
+
+            <div class="basic-meaning" contenteditable="true">
+                Indicates that an action is completely finished before the next action begins. Emphasizes completion and sequence of events.
+            </div>
+
+            <div class="feelings" contenteditable="true">
+                <span class="feelings-label">Emotions:</span> Finality • Sequence • Consequence
+            </div>
+
+            <div class="situation-register">
+                <div class="use-when" contenteditable="true">
+                    <span style="color: #32CD32;">✅ Use when:</span><br>
+                    <span style="color: #FFFFFF;">• Telling stories about past events<br>
+                    • Giving instructions with clear sequences<br>
+                    • Describing realizations after events</span>
+                </div>
+                <div class="dont-use-when" contenteditable="true">
+                    <span style="color: #ff7777;">❌ Don't use when:</span><br>
+                    <span style="color: #FFFFFF;">• Actions happen simultaneously<br>
+                    • Very formal written documents<br>
+                    • When completion isn't emphasized</span>
+                </div>
+            </div>
+
+            <div class="examples-header">Example Sentences</div>
+            <div class="simple-examples">
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">밥 먹고 나서 커피 마셔요.</div>
+                    <div class="example-english" contenteditable="true">I drink coffee after finishing my meal.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">밥</span> = meal, <span class="k" contenteditable="true">커피</span> = coffee))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">생각하고 나서 말해.</div>
+                    <div class="example-english" contenteditable="true">Think first, then speak.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">생각</span> = think, <span class="k" contenteditable="true">말하다</span> = speak))</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conjunction 1: 는데 -->
+        <div class="grammar-breakdown">
+            <div class="grammar-header"><span style="color: #41c0ff;" contenteditable="true">ROOT는데</span></div>
+            
+            <div class="formulaic-meaning" contenteditable="true">
+                <span style="color: #41c0ff;">ROOT는데</span> = "doing verb, but..."
+                <div class="inline-buttons">
+                    <div class="mini-button">ROOT는데</div>
+                    <div class="mini-button">❌ SOB</div>
+                    <div class="mini-button">❌ NOUN</div>
+                </div>
+            </div>
+
+            <div class="basic-meaning" contenteditable="true">
+                Soft contrast or background information for action verbs. Sets up context before main statement. Softer than <span class="k">지만</span>.
+            </div>
+
+            <div class="feelings" contenteditable="true">
+                <span class="feelings-label">Emotions:</span> Gentleness • Context • Complaint
+            </div>
+
+            <div class="situation-register">
+                <div class="use-when" contenteditable="true">
+                    <span style="color: #32CD32;">✅ Use when:</span><br>
+                    <span style="color: #FFFFFF;">• Daily conversation with friends<br>
+                    • Providing background before request<br>
+                    • Soft complaints or observations</span>
+                </div>
+                <div class="dont-use-when" contenteditable="true">
+                    <span style="color: #ff7777;">❌ Don't use when:</span><br>
+                    <span style="color: #FFFFFF;">• Need strong/direct contrast<br>
+                    • Very formal written reports<br>
+                    • Academic thesis statements</span>
+                </div>
+            </div>
+
+            <div class="examples-header">Example Sentences</div>
+            <div class="simple-examples">
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">가고 싶은데 시간이 없어요.</div>
+                    <div class="example-english" contenteditable="true">I want to go but I don't have time.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">가다</span> = go, <span class="k" contenteditable="true">시간</span> = time))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">비가 오는데 우산이 없어.</div>
+                    <div class="example-english" contenteditable="true">It's raining but I don't have an umbrella.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">비</span> = rain, <span class="k" contenteditable="true">우산</span> = umbrella))</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conjunction 2: 은데 -->
+        <div class="grammar-breakdown">
+            <div class="grammar-header"><span style="color: #41c0ff;" contenteditable="true">SOB(으)ㄴ데</span></div>
+            
+            <div class="formulaic-meaning" contenteditable="true">
+                <span style="color: #41c0ff;">SOB(으)ㄴ데</span> = "is SOB, but..."
+                <div class="inline-buttons">
+                    <div class="mini-button">❌ ROOT</div>
+                    <div class="mini-button">SOB(으)ㄴ데</div>
+                    <div class="mini-button">❌ NOUN</div>
+                </div>
+            </div>
+
+            <div class="basic-meaning" contenteditable="true">
+                Soft contrast or background for descriptive verbs/adjectives. Provides context about states or qualities before main point.
+            </div>
+
+            <div class="feelings" contenteditable="true">
+                <span class="feelings-label">Emotions:</span> Surprise • Disagreement • Context
+            </div>
+
+            <div class="situation-register">
+                <div class="use-when" contenteditable="true">
+                    <span style="color: #32CD32;">✅ Use when:</span><br>
+                    <span style="color: #FFFFFF;">• Describing contrasting qualities<br>
+                    • Making polite suggestions<br>
+                    • Casual observations</span>
+                </div>
+                <div class="dont-use-when" contenteditable="true">
+                    <span style="color: #ff7777;">❌ Don't use when:</span><br>
+                    <span style="color: #FFFFFF;">• Need emphatic contrast<br>
+                    • Formal presentations<br>
+                    • Legal or official documents</span>
+                </div>
+            </div>
+
+            <div class="examples-header">Example Sentences</div>
+            <div class="simple-examples">
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">맛있는데 너무 비싸요.</div>
+                    <div class="example-english" contenteditable="true">It's delicious but too expensive.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">맛있다</span> = delicious, <span class="k" contenteditable="true">비싸다</span> = expensive))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">좋은데 좀 작아요.</div>
+                    <div class="example-english" contenteditable="true">It's nice but a bit small.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">좋다</span> = good, <span class="k" contenteditable="true">작다</span> = small))</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conjunction 3: 인데 -->
+        <div class="grammar-breakdown">
+            <div class="grammar-header"><span style="color: #41c0ff;" contenteditable="true">NOUN인데</span></div>
+            
+            <div class="formulaic-meaning" contenteditable="true">
+                <span style="color: #41c0ff;">NOUN인데</span> = "is NOUN, but..."
+                <div class="inline-buttons">
+                    <div class="mini-button">❌ ROOT</div>
+                    <div class="mini-button">❌ SOB</div>
+                    <div class="mini-button">NOUN인데</div>
+                </div>
+            </div>
+
+            <div class="basic-meaning" contenteditable="true">
+                Provides background information or contrast when the subject is a noun. Sets up context about identity or role.
+            </div>
+
+            <div class="feelings" contenteditable="true">
+                <span class="feelings-label">Emotions:</span> Identity • Unexpected • Background
+            </div>
+
+            <div class="situation-register">
+                <div class="use-when" contenteditable="true">
+                    <span style="color: #32CD32;">✅ Use when:</span><br>
+                    <span style="color: #FFFFFF;">• Introducing yourself with contrast<br>
+                    • Explaining unexpected situations<br>
+                    • Casual conversation about identity</span>
+                </div>
+                <div class="dont-use-when" contenteditable="true">
+                    <span style="color: #ff7777;">❌ Don't use when:</span><br>
+                    <span style="color: #FFFFFF;">• Very formal introductions<br>
+                    • Official identity statements<br>
+                    • Legal documentation</span>
+                </div>
+            </div>
+
+            <div class="examples-header">Example Sentences</div>
+            <div class="simple-examples">
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">학생인데 일도 해요.</div>
+                    <div class="example-english" contenteditable="true">I'm a student but I also work.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">학생</span> = student, <span class="k" contenteditable="true">일</span> = work))</div>
+                </div>
+                <div class="example-sentence">
+                    <div class="example-korean" contenteditable="true">주말인데 회사 가야 해.</div>
+                    <div class="example-english" contenteditable="true">It's the weekend but I have to go to work.</div>
+                    <div class="keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">주말</span> = weekend, <span class="k" contenteditable="true">회사</span> = company))</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRACTICE SECTIONS START HERE -->
+        <!-- LEVEL 1 PRACTICE -->
+        <div class="level-section">
+            <div class="level-header" contenteditable="true">🎮 LEVEL 1 - FOUNDATION PRACTICE</div>
+
+            <!-- Section A: Grammar Point Practice -->
+            <div class="practice-subsection">
+                <div class="subsection-title" contenteditable="true">A. Simple Sentences with Fresh Grammar Points (6 sentences)</div>
+                
+                <div class="practice-item">
+                    <div class="practice-number">1.</div>
+                    <div class="practice-english" contenteditable="true">I was walking and suddenly met my old teacher.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">걷다</span> = walk, <span class="k" contenteditable="true">선생님</span> = teacher, <span class="k" contenteditable="true">만나다</span> = meet))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2.</div>
+                    <div class="practice-english" contenteditable="true">Stop pretending you don't understand Korean.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">한국어</span> = Korean, <span class="k" contenteditable="true">이해하다</span> = understand, <span class="k" contenteditable="true">그만</span> = stop))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3.</div>
+                    <div class="practice-english" contenteditable="true">Let's eat first and then talk.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">먹다</span> = eat, <span class="k" contenteditable="true">얘기하다</span> = talk, <span class="k" contenteditable="true">먼저</span> = first))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">4.</div>
+                    <div class="practice-english" contenteditable="true">I was watching YouTube and fell asleep.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">유튜브</span> = YouTube, <span class="k" contenteditable="true">보다</span> = watch, <span class="k" contenteditable="true">잠들다</span> = fall asleep))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5.</div>
+                    <div class="practice-english" contenteditable="true">He's pretending to be sick to skip work.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">아프다</span> = sick, <span class="k" contenteditable="true">회사</span> = work, <span class="k" contenteditable="true">빠지다</span> = skip))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">6.</div>
+                    <div class="practice-english" contenteditable="true">After graduating, I want to travel.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">졸업하다</span> = graduate, <span class="k" contenteditable="true">여행</span> = travel, <span class="k" contenteditable="true">싶다</span> = want))</div>
+                    <div class="answer-line"></div>
+                </div>
+            </div>
+
+            <!-- Section B: Conjunction Practice -->
+            <div class="practice-subsection">
+                <div class="subsection-title" contenteditable="true">B. Sentences with ONE Conjunction (Must use <span style="color: #41c0ff;">ROOT</span>, <span style="color: #41c0ff;">SOB</span>, and <span style="color: #41c0ff;">NOUN</span> forms)</div>
+                
+                <div class="practice-item">
+                    <div class="practice-number">1. (<span style="color: #41c0ff;">ROOT는데</span>)</div>
+                    <div class="practice-english" contenteditable="true">I'm studying but I can't concentrate.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">공부하다</span> = study, <span class="k" contenteditable="true">집중</span> = concentration, <span class="k" contenteditable="true">안 되다</span> = can't))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2. (<span style="color: #41c0ff;">SOB(으)ㄴ데</span>)</div>
+                    <div class="practice-english" contenteditable="true">The food is good but the service is terrible.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">음식</span> = food, <span class="k" contenteditable="true">좋다</span> = good, <span class="k" contenteditable="true">서비스</span> = service, <span class="k" contenteditable="true">별로</span> = not good))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3. (<span style="color: #41c0ff;">NOUN인데</span>)</div>
+                    <div class="practice-english" contenteditable="true">It's Monday but I feel like it's Friday.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">월요일</span> = Monday, <span class="k" contenteditable="true">금요일</span> = Friday, <span class="k" contenteditable="true">느낌</span> = feeling))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">4. (<span style="color: #41c0ff;">ROOT는데</span>)</div>
+                    <div class="practice-english" contenteditable="true">It's raining but I forgot my umbrella.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">비</span> = rain, <span class="k" contenteditable="true">오다</span> = come, <span class="k" contenteditable="true">우산</span> = umbrella, <span class="k" contenteditable="true">잊다</span> = forget))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5. (<span style="color: #41c0ff;">SOB(으)ㄴ데</span>)</div>
+                    <div class="practice-english" contenteditable="true">He's handsome but has no personality.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">잘생기다</span> = handsome, <span class="k" contenteditable="true">성격</span> = personality, <span class="k" contenteditable="true">없다</span> = not have))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">6. (<span style="color: #41c0ff;">NOUN인데</span>)</div>
+                    <div class="practice-english" contenteditable="true">I'm a beginner but everyone thinks I'm advanced.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">초보자</span> = beginner, <span class="k" contenteditable="true">고급</span> = advanced, <span class="k" contenteditable="true">생각하다</span> = think))</div>
+                    <div class="answer-line"></div>
+                </div>
+            </div>
+
+            <!-- Section C: Conjunction + Grammar Point -->
+            <div class="practice-subsection">
+                <div class="subsection-title" contenteditable="true">C. Sentences with 1 Conjunction + 1 Grammar Point (5 sentences)</div>
+                
+                <div class="practice-item">
+                    <div class="practice-number">1.</div>
+                    <div class="practice-english" contenteditable="true">I was exercising but stopped and ate pizza.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">운동</span> = exercise, <span class="k" contenteditable="true">피자</span> = pizza, <span class="k" contenteditable="true">먹다</span> = eat))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2.</div>
+                    <div class="practice-english" contenteditable="true">It's expensive but after trying it, I understand why.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">비싸다</span> = expensive, <span class="k" contenteditable="true">먹어보다</span> = try eating, <span class="k" contenteditable="true">이해</span> = understand))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3.</div>
+                    <div class="practice-english" contenteditable="true">I'm a student but I pretend to be a teacher online.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">학생</span> = student, <span class="k" contenteditable="true">선생님</span> = teacher, <span class="k" contenteditable="true">온라인</span> = online))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">4.</div>
+                    <div class="practice-english" contenteditable="true">I want to go but I have to finish working first.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">가다</span> = go, <span class="k" contenteditable="true">일</span> = work, <span class="k" contenteditable="true">끝내다</span> = finish))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5.</div>
+                    <div class="practice-english" contenteditable="true">The weather is nice but I was sleeping and missed the whole day.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">날씨</span> = weather, <span class="k" contenteditable="true">자다</span> = sleep, <span class="k" contenteditable="true">하루</span> = day, <span class="k" contenteditable="true">놓치다</span> = miss))</div>
+                    <div class="answer-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 2 PRACTICE -->
+        <div class="level-section">
+            <div class="level-header" contenteditable="true">🎯 LEVEL 2 - INTERMEDIATE CHALLENGE</div>
+
+            <div class="practice-subsection">
+                <div class="subsection-title" contenteditable="true">Sentences with 1 Conjunction + 3 Grammar Points</div>
+                
+                <div class="practice-item">
+                    <div class="practice-number">1.</div>
+                    <div class="practice-english" contenteditable="true">I'm tired but I was studying, then pretended to be asleep when mom came, and after she left, I continued.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">피곤하다</span> = tired, <span class="k" contenteditable="true">공부</span> = study, <span class="k" contenteditable="true">엄마</span> = mom, <span class="k" contenteditable="true">자다</span> = sleep, <span class="k" contenteditable="true">나가다</span> = leave, <span class="k" contenteditable="true">계속</span> = continue))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2.</div>
+                    <div class="practice-english" contenteditable="true">It's the weekend but I was working, pretended to be busy, and after finishing everything, I regretted it.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">주말</span> = weekend, <span class="k" contenteditable="true">일하다</span> = work, <span class="k" contenteditable="true">바쁘다</span> = busy, <span class="k" contenteditable="true">끝나다</span> = finish, <span class="k" contenteditable="true">후회</span> = regret))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3.</div>
+                    <div class="practice-english" contenteditable="true">The food is delicious but I was eating, suddenly felt sick, and after resting, I felt better.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">음식</span> = food, <span class="k" contenteditable="true">맛있다</span> = delicious, <span class="k" contenteditable="true">먹다</span> = eat, <span class="k" contenteditable="true">속</span> = stomach, <span class="k" contenteditable="true">아프다</span> = hurt, <span class="k" contenteditable="true">쉬다</span> = rest, <span class="k" contenteditable="true">낫다</span> = get better))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="level-note" contenteditable="true">
+                    💡 <span class="keywords-label">Remember:</span> Combine conjunction (<span class="k">는데/은데/인데</span>) with grammar points (<span class="k">다가</span>, <span class="k">척하다</span>, <span class="k">고 나서</span>)
+                </div>
+
+                <div class="subsection-title" contenteditable="true">Quoting Practice: <span style="color: #41c0ff;">ROOT(는/ㄴ)다고 하다</span> or <span style="color: #41c0ff;">ROOT(으)라고 하다</span></div>
+                
+                <div class="practice-item">
+                    <div class="practice-number">4.</div>
+                    <div class="practice-english" contenteditable="true">They said the meeting is cancelled.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">회의</span> = meeting, <span class="k" contenteditable="true">취소</span> = cancel))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5.</div>
+                    <div class="practice-english" contenteditable="true">Mom told me to clean my room.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">엄마</span> = mom, <span class="k" contenteditable="true">방</span> = room, <span class="k" contenteditable="true">청소하다</span> = clean))</div>
+                    <div class="answer-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 3 PRACTICE -->
+        <div class="level-section">
+            <div class="level-header" contenteditable="true">🏆 LEVEL 3 - ADVANCED MASTERY</div>
+
+            <div class="practice-subsection">
+                <div class="subsection-title" contenteditable="true">5 Sentences with Conjunction + 3 Grammar Points + Quoting 🗣📢</div>
+                
+                <div class="level-note" contenteditable="true">
+                    📝 <span class="keywords-label">Quoting Patterns:</span><br>
+                    • <span style="color: #41c0ff;">ROOT(는/ㄴ)다고</span> → <span class="k">생각하다, 듣다, 하다, 말하다, 얘기하다</span><br>
+                    • <span style="color: #41c0ff;">ROOT냐고</span> → <span class="k">물어보다, 여쭤보다</span><br>
+                    • <span style="color: #41c0ff;">NOUN(이)라고</span> → <span class="k">물어보다, 하다, 생각하다, 듣다, 말하다, 얘기하다</span>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">1.</div>
+                    <div class="practice-english" contenteditable="true">I'm busy but I was working, pretended to be finished, and after actually finishing, I heard that there's more work tomorrow.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">바쁘다</span> = busy, <span class="k" contenteditable="true">일</span> = work, <span class="k" contenteditable="true">끝나다</span> = finish, <span class="k" contenteditable="true">내일</span> = tomorrow, <span class="k" contenteditable="true">더</span> = more, <span class="k" contenteditable="true">듣다</span> = hear))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">2.</div>
+                    <div class="practice-english" contenteditable="true">It's expensive but I was shopping, pretended not to see the price, and after buying it, they said it's non-refundable.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">비싸다</span> = expensive, <span class="k" contenteditable="true">쇼핑</span> = shopping, <span class="k" contenteditable="true">가격</span> = price, <span class="k" contenteditable="true">보다</span> = see, <span class="k" contenteditable="true">사다</span> = buy, <span class="k" contenteditable="true">환불</span> = refund, <span class="k" contenteditable="true">안 되다</span> = not possible))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">3.</div>
+                    <div class="practice-english" contenteditable="true">I'm a student but I was studying, pretended to understand everything, and after the test, the teacher asked if I really understood.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">학생</span> = student, <span class="k" contenteditable="true">공부</span> = study, <span class="k" contenteditable="true">이해</span> = understand, <span class="k" contenteditable="true">시험</span> = test, <span class="k" contenteditable="true">선생님</span> = teacher, <span class="k" contenteditable="true">정말</span> = really, <span class="k" contenteditable="true">물어보다</span> = ask))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">4.</div>
+                    <div class="practice-english" contenteditable="true">The weather is nice but I was walking, suddenly met my ex, pretended not to know them, and after passing by, I thought it was awkward.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">날씨</span> = weather, <span class="k" contenteditable="true">좋다</span> = nice, <span class="k" contenteditable="true">걷다</span> = walk, <span class="k" contenteditable="true">전 애인</span> = ex, <span class="k" contenteditable="true">만나다</span> = meet, <span class="k" contenteditable="true">모르다</span> = not know, <span class="k" contenteditable="true">지나가다</span> = pass by, <span class="k" contenteditable="true">어색하다</span> = awkward, <span class="k" contenteditable="true">생각하다</span> = think))</div>
+                    <div class="answer-line"></div>
+                </div>
+
+                <div class="practice-item">
+                    <div class="practice-number">5.</div>
+                    <div class="practice-english" contenteditable="true">I want to sleep but I was gaming, pretended to be working when my boss called, and after hanging up, they texted saying they knew I was gaming.</div>
+                    <div class="practice-keywords"><span class="keywords-label">(keywords:</span> (<span class="k" contenteditable="true">자다</span> = sleep, <span class="k" contenteditable="true">싶다</span> = want, <span class="k" contenteditable="true">게임</span> = game, <span class="k" contenteditable="true">일하다</span> = work, <span class="k" contenteditable="true">상사</span> = boss, <span class="k" contenteditable="true">전화</span> = phone call, <span class="k" contenteditable="true">끊다</span> = hang up, <span class="k" contenteditable="true">문자</span> = text, <span class="k" contenteditable="true">알다</span> = know, <span class="k" contenteditable="true">말하다</span> = say))</div>
+                    <div class="answer-line"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function generatePrintablePDF() {
+            const buttonContainer = document.getElementById('buttonContainer');
+            const content = document.getElementById('content');
+            
+            // Hide buttons and enable print mode
+            buttonContainer.classList.add('hide-for-pdf');
+            document.body.classList.add('print-mode');
+            
+            // Wait for DOM to update
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            // Generate canvas
+            const canvas = await html2canvas(content, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                windowHeight: content.scrollHeight,
+                windowWidth: content.scrollWidth
+            });
+            
+            // Create PDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pageHeight = 295;
+            const pageWidth = 210;
+            
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = pageWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            let heightLeft = imgHeight;
+            let position = 0;
+            
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+            
+            pdf.save('korean-nominalization-PRINTABLE.pdf');
+            
+            // Restore original state
+            buttonContainer.classList.remove('hide-for-pdf');
+            document.body.classList.remove('print-mode');
+        }
+
+        async function generatePDF() {
+            const buttonContainer = document.getElementById('buttonContainer');
+            const content = document.getElementById('content');
+            
+            // Hide buttons but keep color mode
+            buttonContainer.classList.add('hide-for-pdf');
+            
+            // Wait for DOM to update
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            // Generate canvas with background
+            const canvas = await html2canvas(document.body, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                allowTaint: true,
+                backgroundColor: null,
+                windowHeight: document.body.scrollHeight,
+                windowWidth: document.body.scrollWidth
+            });
+            
+            // Create PDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pageHeight = 295;
+            const pageWidth = 210;
+            
+            const imgData = canvas.toDataURL('image/png');
+            const imgWidth = pageWidth;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            
+            let heightLeft = imgHeight;
+            let position = 0;
+            
+            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
+            
+            while (heightLeft > 0) {
+                position = heightLeft - imgHeight;
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+            }
+            
+            pdf.save('korean-nominalization-practice.pdf');
+            
+            // Restore original state
+            buttonContainer.classList.remove('hide-for-pdf');
+        }
+    </script>
+</body>
+</html>
